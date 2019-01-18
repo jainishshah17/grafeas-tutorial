@@ -114,7 +114,7 @@ func admissionReviewHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		occurrencesResponse := grafeas.ListOccurrencesResponse{}
+		occurrencesResponse := grafeas.ApiListOccurrencesResponse{}
 		if err := json.Unmarshal(data, &occurrencesResponse); err != nil {
 			log.Println(err)
 			continue
@@ -124,8 +124,8 @@ func admissionReviewHandler(w http.ResponseWriter, r *http.Request) {
 		match := false
 		for _, occurrence := range occurrencesResponse.Occurrences {
 			resourceUrl := occurrence.ResourceUrl
-			signature := occurrence.Attestation.PgpSignedAttestation.Signature
-			keyId := occurrence.Attestation.PgpSignedAttestation.PgpKeyId
+			signature := occurrence.AttestationDetails.PgpSignedAttestation.Signature
+			keyId := occurrence.AttestationDetails.PgpSignedAttestation.PgpKeyId
 
 			log.Printf("Container Image: %s", container.Image)
 			log.Printf("ResourceUrl: %s", resourceUrl)
